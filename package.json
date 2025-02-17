@@ -2,6 +2,12 @@
   "name": "vue-cli-maker-vue-3",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": {
+    "create-model-v2": "./builder-v2/createModel.js",
+    "create-service-v2": "./builder-v2/createService.js",
+    "create-store-v2": "./builder-v2/createStore.js",
+    "create-module": "./builder-v2/createModule.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "create-model-v2": "npx -p node@21.1.0 node builder-v2/createModel.js",

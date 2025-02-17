@@ -1,5 +1,8 @@
+#!/usr/bin/env node
+
 const { getControllerName, readFileContent, handleSaveFile, getModelName, getModuleFolderName } = require('./helpers');
 const { buildFile } = require('./helpers/modelBuilder');
+const path = require('path');
 
 console.info("----------START MODEL CONFIG----------");
 
@@ -45,7 +48,7 @@ try {
         path: pathFile,
     };
 
-    const entityModelFileContent = readFileContent('EntityModel.js', './builder-v2', false)
+    const entityModelFileContent = readFileContent('EntityModel.js', path.join(__dirname), false)
 
     // Add the EntityModel.js
     handleSaveFile(pathFile, 'EntityModel.js', entityModelFileContent)
