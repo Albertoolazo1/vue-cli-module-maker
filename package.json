@@ -1,0 +1,31 @@
+{
+  "name": "vue-cli-maker-vue-3",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create-model-v2": "npx -p node@21.1.0 node builder-v2/createModel.js",
+    "create-service-v2": "npx -p node@21.1.0 node builder-v2/createService.js",
+    "create-store-v2": "npx -p node@21.1.0 node builder-v2/createStore.js",
+    "create-module": "npx -p node@21.1.0 npm-run-all create-class create-service create-store create-form-component create-main-component"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Albertoolazo1/vue-cli-maker-vue-3.git"
+  },
+  "keywords": [
+    "vue",
+    "vue-cli",
+    "plugin"
+  ],
+  "author": "Albertoolazo1",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Albertoolazo1/vue-cli-maker-vue-3/issues"
+  },
+  "homepage": "https://github.com/Albertoolazo1/vue-cli-maker-vue-3#readme",
+  "description": "",
+  "dependencies": {
+    "vue-cli-maker-vue-3": "file:"
+  }
+}
