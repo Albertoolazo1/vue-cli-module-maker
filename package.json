@@ -6,6 +6,9 @@
     "create-model-v2": "./builder-v2/createModel.js",
     "create-service-v2": "./builder-v2/createService.js",
     "create-store-v2": "./builder-v2/createStore.js",
+    "create-model-v3": "./builder-v3/createModel.js",
+    "create-service-v3": "./builder-v3/createService.js",
+    "create-store-v3": "./builder-v3/createStore.js",
     "create-module": "./builder-v2/createModule.js"
   },
   "scripts": {
@@ -13,6 +16,9 @@
     "create-model-v2": "npx -p node@21.1.0 node builder-v2/createModel.js",
     "create-service-v2": "npx -p node@21.1.0 node builder-v2/createService.js",
     "create-store-v2": "npx -p node@21.1.0 node builder-v2/createStore.js",
+    "create-model-v3": "npx -p node@21.1.0 node builder-v3/createModel.js",
+    "create-service-v3": "npx -p node@21.1.0 node builder-v3/createService.js",
+    "create-store-v3": "npx -p node@21.1.0 node builder-v3/createStore.js",
     "create-module": "npx -p node@21.1.0 npm-run-all create-class create-service create-store create-form-component create-main-component"
   },
   "repository": {

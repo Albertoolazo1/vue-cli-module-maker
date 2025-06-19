@@ -61,62 +61,65 @@ function buildFileContent(responses) {
 
     // Build the getters & setters if specified
     let generatedGetsSets = "";
-
     if (responses.includeGetsSets) {
         // Generate getter and setter for each property
-        generatedGetsSets = Object.entries(responses.props).map(([propName]) => `    get _${propName}() {
-        return store.state[this.CONTROLLER].item.${propName};
-    }
-    set _${propName}(value) {
-        store.dispatch(this.CONTROLLER.concat('/updateProps'), { prop: "${propName}", value });
-    }`).join('\n');
+        generatedGetsSets = Object.entries(responses.props)
+            .map(([propName, propValue]) => `    get ${propName}(): ${typeof propValue} {
+            return this.store?.item?.${propName} ?? null;
+        }
+        set ${propName}(value: ${typeof propValue}) {
+            this.store.updateProperties({ prop: "${propName}", value });
+        }`).join('\n');
     }
 
-    // Build the property declarations
+    // Build the property declarations with proper typing
     const generatedProps = Object.entries(responses.props)
-        .map(([propName, propValue]) => `    ${propName} = ${JSON.stringify(propValue)};`) // Assign the default value
+        .map(([propName, propValue]) => `    _${propName}: ${typeof propValue} = ${JSON.stringify(propValue)};`) // Assign the default value
         .join('\n');
 
     // Build the constructor property assignments from the item data
     const generatedConstructorProps = Object.entries(responses.props)
-        .map(([propName, propValue]) => `            this.${propName} = item.${propName} ?? ${JSON.stringify(propValue)};`) // Assign item data or default values
+        .map(([propName, propValue]) => `            this._${propName} = item?.${propName} ?? ${JSON.stringify(propValue)};`) // Assign item data or default values
         .join('\n');
 
     // Build alternative constructor property assignments if no item is provided
     const generatedAlterConstructorProps = Object.entries(responses.props)
-        .map(([propName, propValue]) => `            this.${propName} = ${JSON.stringify(propValue)};`) // Assign default values
+        .map(([propName, propValue]) => `            this._${propName} = ${JSON.stringify(propValue)};`) // Assign default values
         .join('\n');
 
+    const generateControllerUse = "use" + responses.controllerName
+
     // Create the content for the model file
-    return `import { store } from '@/_store';
-import EntityModel from './EntityModel';
-const CONTROLLER = "${responses.controllerName}";
+    return `import { defineStore } from 'pinia';
+    import ${generateControllerUse} from './${responses.controllerName}'
+    import EntityModel from './EntityModel';
+    
+    export default class ${responses.modelName} extends EntityModel {
+    ${generatedProps}
+    
+        // Constructor: Initializes the model with item data or default values
+        constructor(item?: Partial<${responses.modelName}>) {
+            super(${generateControllerUse}());
 
-export default class ${responses.modelName} extends EntityModel {
-${generatedProps}
-
-    // Constructor: Initializes the model with item data or default values
-    constructor(item) {
-        super(CONTROLLER);
-        if (item) {
-            // If an item is provided, assign properties from it
-${generatedConstructorProps}
-        } else {
-            // If no item is provided, use default values
-${generatedAlterConstructorProps}
+            if (item) {
+                // If an item is provided, assign properties from it
+    ${generatedConstructorProps}
+            } else {
+                // If no item is provided, use default values
+    ${generatedAlterConstructorProps}
+            }
+        }
+    
+    ${generatedGetsSets}
+    
+        // Method to return table headers for the model
+        getTableHeaders(): Array<{ text: string; value: string }> {
+            return [
+    ${generatedHeaders}
+            ];
         }
     }
-
-${generatedGetsSets}
-
-    // Method to return table headers for the model
-    getTableHeaders() {
-        return [
-${generatedHeaders}
-        ]
-    }
-}
-`;
+    `;
 }
 
 module.exports = { buildFile };

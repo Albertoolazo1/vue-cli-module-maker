@@ -1,7 +1,7 @@
 const { getControllerName, readFileContent, handleSaveFile, getModelName, getModuleFolderName } = require('./helpers');
 const { buildFile } = require('./helpers/modelBuilder');
 
-console.info("----------START MODEL CONFIG----------");
+console.info("----------START MODEL CONFIG V3----------");
 
 // Extract command-line arguments
 const [, , singular, json] = process.argv;
@@ -30,7 +30,7 @@ try {
     // Model name based on the singlar name
     const modelName = getModelName(singular)
     // File name based on the model name
-    const fileName = modelName + '.js';
+    const fileName = modelName + '.ts';
     // Generate the controller name based on the singlar name
     const controllerName = getControllerName(singular);
 
@@ -45,10 +45,10 @@ try {
         path: pathFile,
     };
 
-    const entityModelFileContent = readFileContent('EntityModel.js', './builder-v2', false)
+    const entityModelFileContent = readFileContent('EntityModel.ts', './builder-v3', false)
 
     // Add the EntityModel.js
-    handleSaveFile(pathFile, 'EntityModel.js', entityModelFileContent)
+    handleSaveFile(pathFile, 'EntityModel.ts', entityModelFileContent)
 
     // Build and save the model file
     buildFile(response);

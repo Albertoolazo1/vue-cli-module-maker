@@ -20,7 +20,7 @@ try {
     let serviceName = getServiceName(singular);
 
     // The file name is the service name with a `.js` extension
-    let fileName = serviceName + '.js';
+    let fileName = serviceName + '.ts';
     // Module name based on the singlar name
     const moduleName = getModuleFolderName(singular)
     // Path based on the module name
